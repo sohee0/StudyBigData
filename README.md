@@ -3,12 +3,12 @@
 
 ## Day1
 - 빅데이터 개요
- - 4차 산업혁명
- - 빅데이터 이해와 활용
+  - 4차 산업혁명
+  - 빅데이터 이해와 활용
 - python crawling (Web)
- - naver API
- - 공공데이터 API
- - 패키지 사용
+  - naver API
+  - 공공데이터 API
+  - 패키지 사용
  
 ## Day2
 
