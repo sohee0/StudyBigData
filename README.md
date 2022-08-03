@@ -12,12 +12,17 @@
 ## Day2
 - python crawling (Web)
    - 공공데이터 API
-   - 라이브러리 사용
-  
-- 빅데이터 분석
-  - 통계분석
+    - csv 처리
+    - db 처리
+
 
 ## Day3
+- python crawling (Web)
+  - Beautifulsoup
+  - Selenium
+
+- 빅데이터분석
+  - 통계분석
 
 ## Day4
 

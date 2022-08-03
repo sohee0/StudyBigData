@@ -100,10 +100,11 @@ def main():
     if natName=='':
         print('데이터없음.공공데이터포털 확인요망')
     else:
-        pass
-    
-
-
+        # csv 파일저장
+        columns = ['입국국가','국가코드','입국연월','입국자수']
+        result_df = pd.DataFrame(result,columns=columns)
+        result_df.to_csv(f'./{natName}_{ed}_{nStartYear}_{nEndYear}.csv', index=False, encoding='utf8')
+        print('csv파일 저장완료')
 
 if __name__ == '__main__':
     main()
