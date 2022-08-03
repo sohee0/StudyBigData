@@ -1,4 +1,4 @@
-# StudyBigData
+### StudyBigData
 2022 빅데이터분석가 과정 - 빅데이터 분석 학습 repository
 
 ## Day1
@@ -8,9 +8,14 @@
 - python crawling (Web)
   - naver API
   - 공공데이터 API
-  - 패키지 사용
  
 ## Day2
+- python crawling (Web)
+   - 공공데이터 API
+   - 라이브러리 사용
+  
+- 빅데이터 분석
+  - 통계분석
 
 ## Day3
 
