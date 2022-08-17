@@ -44,4 +44,9 @@
 - PyQt5 학습
   - PyQt5,designer 설치
   - PyQt5 기본폼 만들기
+  
+## PyQt02
+- PyQt5 학습
+  - QtDesigner UI 생성
+  - Naver API : News,Movie Search
 
