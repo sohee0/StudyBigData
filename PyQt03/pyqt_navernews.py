@@ -1,6 +1,3 @@
-from ast import keyword
-import imp
-from re import search
 import sys
 from PyQt5 import uic
 from PyQt5.QtWidgets import *
@@ -9,15 +6,20 @@ from PyQt5.QtGui import *
 from urllib.parse import quote
 import urllib.request
 import json
+import pandas as pd 
 import webbrowser
 
 #클래스 OOP
 class qTemplates(QWidget):
+    start = 1 #api 호출 시 시작 데이터(페이지)번호
+    max_display = 100 # 한페이지에 나올 수
+    saveResult = []  # 저장할때 담을 데이터(딕셔너리 리스트 ! 내부는 딕셔너리 (json) ) -> df -> to.csv
     
+     
     # 생성자
     def __init__(self) -> None:   # self는 그냥파라미터 아님. 특수파라미터 , (none)생성자는 리턴값이 없다.
         super().__init__()
-        uic.loadUi('./PyQt02/navernews.ui',self)
+        uic.loadUi('./PyQt03/navernews_2.ui',self)  #ui변경
         self.initUI()
 
     def initUI(self) -> None:
@@ -33,6 +35,30 @@ class qTemplates(QWidget):
         self.btnSearch.clicked.connect(self.btnSearchClicked)
         self.txtSearch.returnPressed.connect(self.btnSearchClicked)  #검색하고 엔터치면 나오게
         self.tblResult.itemSelectionChanged.connect(self.tblResultSelected)
+        #220818 추가버튼 이벤트(시그널)확장
+        self.btnNext.clicked.connect(self.btnNextClicked)
+        self.btnSave.clicked.connect(self.btnSaveClicked)
+
+    def btnNextClicked(self) -> None:
+        self.start = self.start + self.max_display
+        self.btnSearchClicked()
+
+
+    def btnSaveClicked(self) -> None:
+        if len(self.saveResult)>0:
+            df = pd.DataFrame(self.saveResult)
+            df.to_csv(f'./PyQt03/{self.txtSearch.text()}_뉴스검색결과.csv',encoding='utf-8',index=True)
+       
+        #저장 후 모든 변수 초기화 (초기화중요 !)  
+        QMessageBox.information(self,'저장','저장완료')
+        self.saveResult =[]
+        self.start =1
+        self.txtSearch.setText('')
+        self.lblStatus.setText('Data: ')
+        self.lblStatus2.setText('저장할데이터 > 0개 ' )
+        self.tblResult.setRowCount(0)
+        self.btnNext.setEnabled(True)
+
 
     def tblResultSelected(self) -> None:
         selected = self.tblResult.currentRow()  #선택된 열의 인덱스
@@ -44,17 +70,34 @@ class qTemplates(QWidget):
         totalResult = []
         keyword ='news'
         search_word = self.txtSearch.text()
-        display_count = 100
+        
 
         # QMessageBox.information(self,'결과',search_word)
-        jsonResult = self.getNaverSearch(keyword,search_word,1,display_count)
+        jsonResult = self.getNaverSearch(keyword,search_word,self.start,self.max_display)
         # print(jsonResult)
         for post in jsonResult['items']:
             totalResult.append(self.getPostData(post))
 
         # print(totalResult)
         self.makeTable(totalResult)
-        return #(아무값도 안넣으면 return none이야 )
+
+        #saveResult 값 할당, lblStatus /2 상태값 표시
+        total = jsonResult['total']
+        curr = self.start + self.max_display -1
+
+        self.lblStatus.setText(f'Data: {curr}/{total}')
+
+        #saveResult에 저장할 데이터 복사
+        for post in totalResult:
+            self.saveResult.append(post[0])
+
+        self.lblStatus2.setText(f'저장할데이터 > {len(self.saveResult)}개')
+
+        if curr >=1000:
+            self.btnNext.setDisabled(True)
+        else:
+            self.btnNext.setEnabled(True)
+
 
     def makeTable(self,result):
         self.tblResult.setSelectionMode(QAbstractItemView.SingleSelection) 
@@ -87,8 +130,8 @@ class qTemplates(QWidget):
     
     def getPostData(self,post):
         temp = []
-        title = post['title']
-        description = post['description']
+        title =self.strip_tag(post['title']) #모든곳에서 html태그제거
+        description =['description']
         originallink = post['originallink']
         link = post['link']
         pubDate = post['pubDate']
@@ -96,7 +139,8 @@ class qTemplates(QWidget):
         temp.append({'title':title,
                     'description':description,
                     'originallink':originallink,
-                    'link':link})
+                    'link':link,
+                    'pubDate':pubDate}) #220818 pubdate 추가
 
         return temp
 
