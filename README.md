@@ -52,6 +52,6 @@
 
 ## PyQt03
 - PyQt5 학습
-  - Naver API : News search ~ csv 저장
+  - Naver API : News search ~ csv 저장 [링크](https://github.com/sohee0/StudyBigData/tree/main/PyQt03)
   - ![navernews crawlingpng](https://user-images.githubusercontent.com/108312161/185272714-f1794c06-ce03-49c7-9088-3570adb27331.png)
 
