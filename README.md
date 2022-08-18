@@ -50,3 +50,7 @@
   - QtDesigner UI 생성
   - Naver API : News,Movie Search
 
+## PyQt03
+- PyQt5 학습
+  - Naver API : News search ~ csv 저장
+
