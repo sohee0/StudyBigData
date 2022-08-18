@@ -53,4 +53,5 @@
 ## PyQt03
 - PyQt5 학습
   - Naver API : News search ~ csv 저장
+  - ![navernews crawlingpng](https://user-images.githubusercontent.com/108312161/185272714-f1794c06-ce03-49c7-9088-3570adb27331.png)
 
